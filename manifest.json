@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Job Autofill",
+  "version": "1.0.0",
+  "description": "Auto-fill job application forms from candidate profiles",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": ["<all_urls>"],
+  "action": {
+    "default_popup": "src/popup/popup.html",
+    "default_icon": "public/icons/icon48.png"
+  },
+  "options_page": "src/options/options.html",
+  "background": {
+    "service_worker": "src/background/service-worker.ts",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/content/autofill.ts"],
+      "run_at": "document_idle"
+    }
+  ]
+}
