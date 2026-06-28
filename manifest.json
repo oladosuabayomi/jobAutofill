@@ -6,8 +6,7 @@
   "permissions": ["storage", "activeTab", "scripting"],
   "host_permissions": ["<all_urls>"],
   "action": {
-    "default_popup": "src/popup/popup.html",
-    "default_icon": "public/icons/icon48.png"
+    "default_popup": "src/popup/popup.html"
   },
   "options_page": "src/options/options.html",
   "background": {

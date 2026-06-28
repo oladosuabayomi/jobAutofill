@@ -3,7 +3,7 @@ import type { Candidate, Application, CandidateCredential } from './types'
 
 const getKeys = async () => {
   return new Promise<{ url: string; key: string }>((resolve) => {
-    chrome.storage.local.get(['supabaseUrl', 'supabaseKey'], (result) => {
+    chrome.storage.local.get(['supabaseUrl', 'supabaseKey'], (result: any) => {
       resolve({ url: result.supabaseUrl, key: result.supabaseKey })
     })
   })

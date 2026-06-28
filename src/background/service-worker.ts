@@ -1,6 +1,6 @@
 import { getCandidate, logApplication } from '../lib/supabase'
 
-chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message: any, _sender: any, sendResponse: any) => {
   if (message.action === 'FILL_FORM') {
     handleFill(message.candidateId, message.tabId).then(sendResponse)
     return true // keep channel open for async response
