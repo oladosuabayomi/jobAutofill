@@ -36,6 +36,14 @@ export default function Popup() {
     if (!selected) return
     setState('filling')
     try {
+      const selectedCandidate = candidates.find(c => c.id === selected)
+      if (selectedCandidate) {
+        await chrome.storage.local.set({ 
+          activeCandidateId: selected,
+          activeCandidateName: `${selectedCandidate.first_name} ${selectedCandidate.last_name}`
+        })
+      }
+
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
       if (!tab.id) throw new Error('No active tab')
       const result = await chrome.runtime.sendMessage({

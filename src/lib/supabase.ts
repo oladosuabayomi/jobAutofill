@@ -9,12 +9,16 @@ const getKeys = async () => {
   })
 }
 
+let supabaseInstance: any = null
+
 export const getSupabase = async () => {
+  if (supabaseInstance) return supabaseInstance
   const { url, key } = await getKeys()
   if (!url || !key) {
     throw new Error('Supabase credentials not configured in extension settings.')
   }
-  return createClient(url, key)
+  supabaseInstance = createClient(url, key)
+  return supabaseInstance
 }
 
 export const getCandidates = async (): Promise<Candidate[]> => {
@@ -40,9 +44,11 @@ export const getCandidate = async (id: string): Promise<Candidate> => {
 
 export const saveCandidate = async (candidate: Partial<Candidate>): Promise<Candidate> => {
   const supabase = await getSupabase()
+  const { qa, ...payload } = candidate
+  
   const { data, error } = await supabase
     .from('candidates')
-    .upsert(candidate)
+    .upsert(payload)
     .select()
     .single()
   if (error) throw error
@@ -68,6 +74,16 @@ export const logApplication = async (app: Omit<Application, 'id' | 'applied_at'>
   const supabase = await getSupabase()
   const { error } = await supabase.from('applications').insert(app)
   if (error) throw error
+}
+
+export const getApplications = async (): Promise<any[]> => {
+  const supabase = await getSupabase()
+  const { data, error } = await supabase
+    .from('applications')
+    .select('*, candidate:candidates(first_name, last_name)')
+    .order('applied_at', { ascending: false })
+  if (error) throw error
+  return data ?? []
 }
 
 export const saveCredential = async (cred: Omit<CandidateCredential, 'id'>): Promise<void> => {

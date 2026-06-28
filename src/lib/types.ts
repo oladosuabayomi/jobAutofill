@@ -32,11 +32,44 @@ export interface Candidate {
   date_of_birth?: string
   nationality?: string
   qa?: QAPair[]
+  // Phase 12 Additions
+  salary_expectation?: string
+  postal_code?: string
+  state?: string
+  city?: string
+  default_password?: string
+  username?: string
+  work_experiences?: WorkExperience[]
+  education?: Education[]
+  skills?: Skill[]
+}
+
+export interface WorkExperience {
+  company: string
+  job_title: string
+  location?: string
+  start_date?: string
+  end_date?: string
+  is_current?: boolean
+  description?: string
+}
+
+export interface Education {
+  institution: string
+  degree: string
+  field_of_study?: string
+  start_date?: string
+  end_date?: string
+}
+
+export interface Skill {
+  name: string
+  years?: number
 }
 
 export interface QAPair {
-  id: string
-  candidate_id: string
+  id?: string
+  candidate_id?: string
   question: string
   answer: string
 }
@@ -47,6 +80,7 @@ export interface Application {
   company: string
   job_title?: string
   platform?: string
+  url?: string
   applied_at: string
   status: string
 }
