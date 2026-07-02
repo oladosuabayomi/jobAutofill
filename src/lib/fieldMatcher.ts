@@ -183,6 +183,15 @@ export const fillForm = async (candidate: Candidate): Promise<FillReport> => {
   const arrayCounters: Record<string, number> = {}
 
   for (const el of elements) {
+    if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) {
+      if (el.type !== 'checkbox' && el.type !== 'radio' && el.type !== 'hidden') {
+        if (el.value && el.value.trim() !== '') {
+          report.skipped++;
+          continue;
+        }
+      }
+    }
+
     const label = getLabel(el)
     if (!label) { report.skipped++; continue }
 
